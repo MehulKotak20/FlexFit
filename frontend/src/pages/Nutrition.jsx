@@ -10,7 +10,7 @@ import {
   Beef,
   Egg,
   Flame,
-  Target
+  Target,
 } from "lucide-react";
 import { useUser } from "../context/UserContext";
 
@@ -132,6 +132,7 @@ const Nutrition = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedFood, setSelectedFood] = useState(null);
   const [servingCount, setServingCount] = useState(1);
+  const [isCustomFoodModalOpen, setIsCustomFoodModalOpen] = useState(false);
 
   const categories = [
     "All",
@@ -177,6 +178,22 @@ const Nutrition = () => {
     setServingCount(1);
   };
 
+  const handleAddCustomFood = (foodData) => {
+    const today = new Date().toISOString().split("T")[0];
+
+    const nutritionLog = {
+      id: Date.now().toString(),
+      date: today,
+      name: foodData.name,
+      calories: parseFloat(foodData.calories),
+      protein: parseFloat(foodData.protein),
+      carbs: parseFloat(foodData.carbs),
+      fat: parseFloat(foodData.fat),
+    };
+
+    addNutritionLog(nutritionLog);
+    setIsCustomFoodModalOpen(false);
+  };
 
   const getCategoryIcon = (category) => {
     switch (category) {
@@ -202,7 +219,10 @@ const Nutrition = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-800">Nutrition Tracker</h1>
-        <button className="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium hover:bg-green-700">
+        <button
+          onClick={() => setIsCustomFoodModalOpen(true)}
+          className="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center text-sm font-medium hover:bg-green-700"
+        >
           <Plus className="h-4 w-4 mr-1" />
           Add Custom Food
         </button>
@@ -285,11 +305,13 @@ const Nutrition = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {filteredFoods.map((food) => (
           <div key={food.id} className="bg-white rounded-xl shadow p-4">
-            <img
-              src={food.imageUrl}
-              alt={food.name}
-              className="w-full h-36 object-cover rounded-lg"
-            />
+            <div className="w-full h-48 overflow-hidden rounded-lg">
+              <img
+                src={food.imageUrl}
+                alt={food.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <div className="mt-4">
               <h3 className="text-lg font-semibold text-gray-800">
                 {food.name}
@@ -327,11 +349,13 @@ const Nutrition = () => {
                 &times;
               </button>
             </div>
-            <img
-              src={selectedFood.imageUrl}
-              alt={selectedFood.name}
-              className="w-full h-36 object-cover rounded-lg mt-4"
-            />
+            <div className="w-full h-48 overflow-hidden rounded-lg mt-4">
+              <img
+                src={selectedFood.imageUrl}
+                alt={selectedFood.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <div className="mt-4 text-sm text-gray-600">
               {selectedFood.servingSize}
             </div>
@@ -368,6 +392,118 @@ const Nutrition = () => {
           </div>
         </div>
       )}
+
+      {/* Custom Food Modal */}
+      <CustomFoodModal
+        isOpen={isCustomFoodModalOpen}
+        onClose={() => setIsCustomFoodModalOpen(false)}
+        onSubmit={handleAddCustomFood}
+      />
+    </div>
+  );
+};
+
+const CustomFoodModal = ({ isOpen, onClose, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    calories: "",
+    protein: "",
+    carbs: "",
+    fat: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-xl shadow p-6 w-96">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-semibold">Add Custom Food</h3>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            &times;
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Food Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Calories</label>
+            <input
+              type="number"
+              name="calories"
+              value={formData.calories}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Protein (g)</label>
+            <input
+              type="number"
+              name="protein"
+              value={formData.protein}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Carbs (g)</label>
+            <input
+              type="number"
+              name="carbs"
+              value={formData.carbs}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Fat (g)</label>
+            <input
+              type="number"
+              name="fat"
+              value={formData.fat}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg"
+          >
+            Add to Log
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
