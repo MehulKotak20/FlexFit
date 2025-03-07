@@ -3,9 +3,16 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 // Components and Pages
+
+import FloatingShape from "./components/FloatingShape";
+import Navbar from "./components/Navbar";
+import LoadingSpinner from "./components/LoadingSpinner";
+import SignUpPage from "./pages/SignUpPage";
+
 // import FloatingShape from "./components/FloatingShape";
 // import LoadingSpinner from "./components/LoadingSpinner";
 import SignUpPage from ".src/pages/SignUpPage";
+
 import LoginPage from "./pages/LoginPage";
 // import EmailVerificationPage from "./pages/EmailVerificationPage";
 // import DashboardPage from "./pages/DashboardPage";
