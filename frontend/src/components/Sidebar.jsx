@@ -15,12 +15,17 @@ const Sidebar = () => {
   const isActive = (path) => location.pathname === path;
   
   const navItems = [
-    { path: '/', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
-    { path: '/exercises', icon: <Dumbbell size={20} />, label: 'Exercises' },
-    { path: '/nutrition', icon: <Apple size={20} />, label: 'Nutrition' },
-    { path: '/bmi', icon: <Scale size={20} />, label: 'BMI Calculator' },
-    { path: '/progress', icon: <LineChart size={20} />, label: 'Progress' },
-    { path: '/ai-trainer', icon: <Bot size={20} />, label: 'AI Trainer' },
+    { path: "/", icon: <LayoutDashboard size={20} />, label: "Dashboard" },
+    { path: "/exercises", icon: <Dumbbell size={20} />, label: "Exercises" },
+    { path: "/nutrition", icon: <Apple size={20} />, label: "Nutrition" },
+    { path: "/bmi", icon: <Scale size={20} />, label: "BMI Calculator" },
+    { path: "/progress", icon: <LineChart size={20} />, label: "Progress" },
+    { path: "/ai-trainer", icon: <Bot size={20} />, label: "AI Trainer" },
+    {
+      path: "http://localhost:3000/video-streaming",
+      icon: <Bot size={20} />,
+      label: "Excercise Assessment",
+    },
   ];
 
   return (

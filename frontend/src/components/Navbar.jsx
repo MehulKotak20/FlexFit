@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X, Dumbbell, User, ChevronDown } from "lucide-react";
-import { useUser } from '../context/UserContext';
+import { useUser } from "../context/UserContext";
 import { useAuthStore } from "../store/authStore";
 
 const Navbar = () => {
@@ -26,10 +26,7 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center bg-indigo-700 px-3 py-1 rounded-full">
-              <span className="text-yellow-300 font-bold mr-1">{streak}</span>
-              <span className="text-sm">day streak 🔥</span>
-            </div>
+            <div className="flex items-center bg-indigo-700 px-3 py-1 rounded-full"></div>
 
             <div className="relative">
               <button
@@ -135,5 +132,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
