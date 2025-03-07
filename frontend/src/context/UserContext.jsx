@@ -63,11 +63,11 @@ export const UserProvider = ({ children }) => {
   }, []); // Runs only once on mount to fetch the data
 
   // Only allow redirects once data is fetched and loaded
-  useEffect(() => {
-    if (!loading && (!user.height || !user.weight || !user.age)) {
-      navigate("/profile-setup");
-    }
-  }, [user, loading, navigate]);
+//   useEffect(() => {
+//     if (!loading && (!user.height || !user.weight || !user.age)) {
+//       navigate("/profile-setup");
+//     }
+//   }, [user, loading, navigate]);
 
   const updateUser = async (updates) => {
     try {
