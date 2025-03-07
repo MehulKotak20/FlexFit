@@ -7,17 +7,16 @@ import { Toaster } from "react-hot-toast";
 import FloatingShape from "./components/FloatingShape";
 import Navbar from "./components/Navbar";
 import LoadingSpinner from "./components/LoadingSpinner";
-import SignUpPage from "./pages/SignUpPage";
 
 // import FloatingShape from "./components/FloatingShape";
 // import LoadingSpinner from "./components/LoadingSpinner";
-import SignUpPage from ".src/pages/SignUpPage";
+import SignUpPage from "./pages/SignUpPage";
 
 import LoginPage from "./pages/LoginPage";
-// import EmailVerificationPage from "./pages/EmailVerificationPage";
-// import DashboardPage from "./pages/DashboardPage";
-// import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-// import ResetPasswordPage from "./pages/ResetPasswordPage";
+ import EmailVerificationPage from "./pages/EmailVerificationPage";
+ import DashboardPage from "./pages/DashboardPage";
+ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+ import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 // Auth Store
 import { useAuthStore } from "./store/authStore";
