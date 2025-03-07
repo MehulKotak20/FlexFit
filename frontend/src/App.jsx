@@ -13,10 +13,10 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import SignUpPage from "./pages/SignUpPage";
 
 import LoginPage from "./pages/LoginPage";
-// import EmailVerificationPage from "./pages/EmailVerificationPage";
-// import DashboardPage from "./pages/DashboardPage";
-// import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-// import ResetPasswordPage from "./pages/ResetPasswordPage";
+ import EmailVerificationPage from "./pages/EmailVerificationPage";
+ import DashboardPage from "./pages/DashboardPage";
+ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+ import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 // Auth Store
 import { useAuthStore } from "./store/authStore";
@@ -86,14 +86,14 @@ function App() {
 
   return (
         <Routes>
-          {/* <Route
+          <Route
             path="/"
             element={
               <ProtectedRoute>
                 <DashboardPage />
               </ProtectedRoute>
             }
-          /> */}
+          />
           <Route
             path="/signup"
             element={
@@ -114,7 +114,7 @@ function App() {
             </AuthUI>
             }
           />
-          {/* <Route path="/verify-email" element={<EmailVerificationPage />} /> */}
+          <Route path="/verify-email" element={<EmailVerificationPage />} />
           <Route
             path="/forgot-password"
             element={
