@@ -1,7 +1,8 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { User } from "./models/user.model.js";
-import { generateTokenAndSetCookie } from "./utils/generateTokenAndSetCookie.js";
+import { generateTokenAndSetCookie } from './utils/generateTokenAndSetCookie.js';
+
 
 // Initialize Passport with Google Strategy
 passport.use(
