@@ -7,11 +7,10 @@ import { Toaster } from "react-hot-toast";
 import FloatingShape from "./components/FloatingShape";
 import Navbar from "./components/Navbar";
 import LoadingSpinner from "./components/LoadingSpinner";
-import SignUpPage from "./pages/SignUpPage";
 
 // import FloatingShape from "./components/FloatingShape";
 // import LoadingSpinner from "./components/LoadingSpinner";
-import SignUpPage from ".src/pages/SignUpPage";
+import SignUpPage from "./pages/SignUpPage";
 
 import LoginPage from "./pages/LoginPage";
 // import EmailVerificationPage from "./pages/EmailVerificationPage";
@@ -87,14 +86,14 @@ function App() {
 
   return (
         <Routes>
-          <Route
+          {/* <Route
             path="/"
             element={
               <ProtectedRoute>
                 <DashboardPage />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route
             path="/signup"
             element={
@@ -115,7 +114,7 @@ function App() {
             </AuthUI>
             }
           />
-          <Route path="/verify-email" element={<EmailVerificationPage />} />
+          {/* <Route path="/verify-email" element={<EmailVerificationPage />} /> */}
           <Route
             path="/forgot-password"
             element={
