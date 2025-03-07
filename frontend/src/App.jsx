@@ -3,15 +3,21 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 // Components and Pages
+
 import FloatingShape from "./components/FloatingShape";
 import Navbar from "./components/Navbar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import SignUpPage from "./pages/SignUpPage";
+
+// import FloatingShape from "./components/FloatingShape";
+// import LoadingSpinner from "./components/LoadingSpinner";
+import SignUpPage from ".src/pages/SignUpPage";
+
 import LoginPage from "./pages/LoginPage";
-import EmailVerificationPage from "./pages/EmailVerificationPage";
-import DashboardPage from "./pages/DashboardPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
+// import EmailVerificationPage from "./pages/EmailVerificationPage";
+// import DashboardPage from "./pages/DashboardPage";
+// import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+// import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 // Auth Store
 import { useAuthStore } from "./store/authStore";
@@ -51,13 +57,13 @@ const AuthUI = ({children}) => (
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        filter: "blur(2px)", // Apply blur effect
+        filter: "blur(2px)", 
         position: "absolute",
         top: 0,
         left: 0,
         width: "100%",
         height: "100%",
-        zIndex: -1, // Push it behind the content
+        zIndex: -1, 
       }}
     >
       {/* Gradient Overlay
@@ -140,5 +146,3 @@ function App() {
 
 export default App;
 
-//
-//
