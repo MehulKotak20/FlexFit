@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 
 // Components and Pages
 import FloatingShape from "./components/FloatingShape";
+import Navbar from "./component/Navbar";
 import LoadingSpinner from "./components/LoadingSpinner";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
