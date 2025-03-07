@@ -200,9 +200,9 @@ const startExercise = async (exercise) => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Exercises</h1>
-        <button className="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-lg">
+        {/* <button className="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-lg">
           <Plus className="h-4 w-4 mr-2" /> Create Custom Workout
-        </button>
+        </button> */}
       </div>
 
       <div className="bg-white p-4 rounded-lg shadow">

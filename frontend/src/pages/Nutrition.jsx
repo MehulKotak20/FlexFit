@@ -120,7 +120,7 @@ const foodData = [
     carbs: 12,
     fat: 1.4,
     imageUrl:
-      "https://images.unsplash.com/photo-1517673132405-a56a62b18caf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+      "https://images.unsplash.com/photo-1501432781167-c0ccfd492297?q=80&w=1986&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     servingSize: "100g cooked",
   },
 ];
@@ -262,7 +262,7 @@ const Nutrition = () => {
           <div className="flex justify-between items-start">
             <div>
               <p className="text-sm font-medium text-gray-500">Daily Goal</p>
-              <p className="text-2xl font-bold mt-1">2500</p>
+              <p className="text-2xl font-bold mt-1">1500</p>
               <p className="text-sm text-gray-500">kcal goal</p>
             </div>
             <div className="bg-yellow-100 p-2 rounded-lg">
