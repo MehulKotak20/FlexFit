@@ -114,7 +114,7 @@ function App() {
             </AuthUI>
             }
           />
-          <Route path="/verify-email" element={<EmailVerificationPage />} />
+          <Route path="/verify-email" element={<AuthUI><EmailVerificationPage /></AuthUI>} />
           <Route
             path="/forgot-password"
             element={
