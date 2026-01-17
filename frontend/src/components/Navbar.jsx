@@ -26,7 +26,11 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center bg-indigo-700 px-3 py-1 rounded-full"></div>
+            {/* Set streak UI and fire emoji */}
+            <div className="flex items-center">
+              <span className="text-yellow-400 mr-1">🔥</span>
+              <div className="flex items-center bg-indigo-700 px-3 py-1 rounded-full">{`${streak}`}</div>
+            </div>
 
             <div className="relative">
               <button

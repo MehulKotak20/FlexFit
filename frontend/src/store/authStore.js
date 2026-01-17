@@ -16,7 +16,7 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   message: null,
   storedToken: localStorage.getItem("token") || null,
-  Admin: localStorage.getItem("isAdmin") === "true",
+  // Admin: localStorage.getItem("isAdmin") === "true",
 
   signup: async (email, password, name) => {
     set({ isLoading: true, error: null });
@@ -27,11 +27,11 @@ export const useAuthStore = create((set) => ({
         name,
       });
       localStorage.setItem("token", response.data.user.token);
-      localStorage.setItem("isAdmin", response.data.user.isAdmin);
+      // localStorage.setItem("isAdmin", response.data.user.isAdmin);
       set({
         user: response.data.user,
         isAuthenticated: true,
-        isAdmin: response.data.user.isAdmin,
+        // isAdmin: response.data.user.isAdmin,
         isLoading: false,
       });
     } catch (error) {
@@ -53,12 +53,12 @@ export const useAuthStore = create((set) => ({
       const { user } = response.data;
       // Store token & admin status in localStorage
       localStorage.setItem("token", user.token);
-      localStorage.setItem("isAdmin", user.isAdmin ? "true" : "false");
+      // localStorage.setItem("isAdmin", user.isAdmin ? "true" : "false");
 
       set({
         isAuthenticated: true,
         user: response.data.user,
-        isAdmin: user.isAdmin,
+        // isAdmin: user.isAdmin,
         error: null,
         isLoading: false,
       });

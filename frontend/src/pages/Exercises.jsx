@@ -25,11 +25,11 @@ const exerciseData = [
     difficulty: "beginner",
     imageUrl:
       "https://plus.unsplash.com/premium_photo-1663040268906-5ddcfa26cfbd?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      //https://plus.unsplash.com/premium_photo-1663040268906-5ddcfa26cfbd?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-      description:
+    //https://plus.unsplash.com/premium_photo-1663040268906-5ddcfa26cfbd?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+    description:
       "A classic bodyweight exercise that targets the chest, shoulders, and triceps.",
-      animation:
-    "https://lottie.host/deca282f-43da-471a-8292-030b51b6a21c/4Rg1zpmZAz.lottie"
+    animation:
+      "https://lottie.host/ce75001c-fd49-4049-832f-5f17680dc9d0/yY7r3air01.lottie",
   },
   {
     id: "2",
@@ -42,8 +42,8 @@ const exerciseData = [
       "https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
     description:
       "A lower body exercise that targets the quadriceps, hamstrings, and glutes.",
-      animation:
-      "https://lottie.host/8489aacf-6e5a-4d1d-8ab9-43da95077b4b/eYMZeqpHjS.lottie"
+    animation:
+      "https://lottie.host/8489aacf-6e5a-4d1d-8ab9-43da95077b4b/eYMZeqpHjS.lottie",
   },
   {
     id: "3",
@@ -56,8 +56,8 @@ const exerciseData = [
       "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
     description:
       "An isometric core exercise that strengthens the abdominals, back, and shoulders.",
-      animation:
-      "https://lottie.host/724024ef-1bf0-4e80-94b2-fca815a42ce7/pXJRslOtQb.lottie"
+    animation:
+      "https://lottie.host/724024ef-1bf0-4e80-94b2-fca815a42ce7/pXJRslOtQb.lottie",
   },
   {
     id: "4",
@@ -70,7 +70,7 @@ const exerciseData = [
       "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
     description:
       "A full-body cardio exercise that increases heart rate and improves coordination.",
-      animation:
+    animation:
       "https://lottie.host/102e2fb2-4873-49eb-bf52-045494133223/QkKAJXnrxi.lottie",
   },
   {
@@ -84,8 +84,8 @@ const exerciseData = [
       "https://images.unsplash.com/photo-1434682881908-b43d0467b798?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
     description:
       "A lower body exercise that targets the quadriceps, hamstrings, and glutes while improving balance.",
-      animation:
-      "https://lottie.host/f971b44a-bd84-4f21-8482-5b3e11bb0905/lZyBBF78oy.lottie"
+    animation:
+      "https://lottie.host/f971b44a-bd84-4f21-8482-5b3e11bb0905/lZyBBF78oy.lottie",
   },
   {
     id: "6",
@@ -98,8 +98,8 @@ const exerciseData = [
       "https://images.unsplash.com/photo-1593476123561-9516f2097158?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
     description:
       "A high-intensity full-body exercise that combines a squat, push-up, and jump.",
-      animation:
-      "https://lottie.host/1011982d-9154-4a66-8b5b-6edc507c9498/XmEUJn05bq.lottie"
+    animation:
+      "https://lottie.host/1011982d-9154-4a66-8b5b-6edc507c9498/XmEUJn05bq.lottie",
   },
 ];
 
@@ -162,10 +162,18 @@ const startExercise = async (exercise) => {
       },
     ];
 
+    let token = localStorage.getItem("token");
     // Send the exercise data to the backend
-    const response = await axios.post("/api/user/exercises", {
-      exercises: exerciseData,
-    });
+    const response = await axios.post(
+      "/api/user/exercises",
+      {
+        exercises: exerciseData,
+      },
+      {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}, // Send token if available
+        withCredentials: true, // Include cookies in request (for Google login)
+      }
+    );
 
     console.log("API response:", response); // Log the response for debugging
 

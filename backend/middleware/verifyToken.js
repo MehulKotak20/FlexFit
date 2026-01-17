@@ -7,6 +7,8 @@ dotenv.config();
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const verifyToken = async (req, res, next) => {
+
+  console.log("Incoming request headers:", req.headers.authorization);
   let token = req.headers.authorization?.split(" ")[1];
   console.log("Extracted 1 Token:", token);
 

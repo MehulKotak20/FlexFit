@@ -15,7 +15,7 @@ router.use(verifyToken);
 
 // Profile routes
 router.get("/profile", getUserProfile); // Fetch full profile
-router.patch("/profile", updateUserProfile); // Update basic info (height, weight, etc.)
+router.put("/profile", updateUserProfile); // Update basic info (height, weight, etc.)
 
 // Fitness and nutrition routes
 router.post("/exercises", addExercises); // Add exercises to user

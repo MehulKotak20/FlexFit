@@ -75,11 +75,11 @@ export const getUserProfile = async (req, res) => {
 // Update user profile (height, weight, goal, etc.)
 export const updateUserProfile = async (req, res) => {
   try {
-    const { height, weight, age, gender, goal, activityLevel } = req.body;
+    const { height, weight, age,streak, gender, goal, activityLevel } = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
       req.userId,
-      { $set: { height, weight, age, gender, goal, activityLevel } },
+      { $set: { height, weight,streak, age, gender, goal, activityLevel } },
       { new: true }
     ).select("-password");
 

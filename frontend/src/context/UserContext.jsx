@@ -19,7 +19,7 @@ export const UserProvider = ({ children }) => {
   const [exerciseLogs, setExerciseLogs] = useState([]);
   const [nutritionLogs, setNutritionLogs] = useState([]);
   const [streak, setStreak] = useState(0);
-  const [loading, setLoading] = useState(true); // track loading state
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
@@ -28,8 +28,17 @@ export const UserProvider = ({ children }) => {
     setLoading(true);
     setError(null);
 
+    let token = localStorage.getItem("token");
+
     try {
-      const { data } = await axios.get("/api/user/profile"); // Matches your GET /profile route
+      const { data } = await axios.get(
+        "http://localhost:5000/api/user/profile",
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          withCredentials: true,
+        }
+      );
+
       const userData = data.user || {};
 
       setUser({
@@ -37,6 +46,7 @@ export const UserProvider = ({ children }) => {
         height: userData.height,
         weight: userData.weight,
         age: userData.age,
+        
         gender: userData.gender,
         goal: userData.goal,
         activityLevel: userData.activityLevel,
@@ -44,9 +54,8 @@ export const UserProvider = ({ children }) => {
 
       setExerciseLogs(userData.exercises || []);
       setNutritionLogs(userData.nutrition || []);
-      setStreak(userData.streak || 0);
+      setStreak(0); // will be recalculated below
 
-      // Redirect to profile setup if any essential data is missing
       if (!userData.height || !userData.weight || !userData.age) {
         navigate("/profile-setup");
       }
@@ -60,19 +69,21 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     fetchUserData();
-  }, []); // Runs only once on mount to fetch the data
-
-  // Only allow redirects once data is fetched and loaded
-//   useEffect(() => {
-//     if (!loading && (!user.height || !user.weight || !user.age)) {
-//       navigate("/profile-setup");
-//     }
-//   }, [user, loading, navigate]);
+  }, []);
 
   const updateUser = async (updates) => {
+    let token = localStorage.getItem("token");
+    console.log("Updating user with:", updates);
     try {
-      const { data } = await axios.patch("/api/user/profile", updates); // This is now PATCH to match your backend
-      setUser((prev) => ({ ...prev, ...data.user })); // Merge new data with existing user state
+      const { data } = await axios.put(
+        "http://localhost:5000/api/user/profile",
+        updates,
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          withCredentials: true,
+        }
+      );
+      setUser((prev) => ({ ...prev, ...data.user }));
     } catch (err) {
       console.error("Error updating user:", err);
       setError(err.response?.data?.message || "Failed to update user");
@@ -80,51 +91,103 @@ export const UserProvider = ({ children }) => {
   };
 
   const addExerciseLog = async (log) => {
+    let token = localStorage.getItem("token");
     try {
-      const { data } = await axios.post("/api/user/exercises", log); // This matches your /exercises route
-      setExerciseLogs(data.exercises);
+      const { data } = await axios.post(
+        "http://localhost:5000/api/user/exercises",
+        log,
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          withCredentials: true,
+        }
+      );
+      setExerciseLogs(data.exercises); // streak recalculates automatically
     } catch (err) {
       console.error("Error adding exercise log:", err);
       setError(err.response?.data?.message || "Failed to add exercise log");
     }
   };
 
- const addNutritionLog = async (nutritionLog) => {
-   try {
-     // Wrap the nutritionLog in an array before sending it
-     const { data } = await axios.post("/api/user/nutrition", {
-       nutrition: [nutritionLog],
-     });
-     setNutritionLogs(data.user.nutrition);
-   } catch (err) {
-     console.error("Error adding nutrition log:", err);
-     setError(err.response?.data?.message || "Failed to add nutrition log");
-   }
- };
+  const addNutritionLog = async (nutritionLog) => {
+    let token = localStorage.getItem("token");
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/api/user/nutrition",
+        {
+          nutrition: [nutritionLog],
+        },
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          withCredentials: true,
+        }
+      );
+      setNutritionLogs(data.user.nutrition);
+    } catch (err) {
+      console.error("Error adding nutrition log:", err);
+      setError(err.response?.data?.message || "Failed to add nutrition log");
+    }
+  };
 
+  // ✅ Streak calculation logic
+useEffect(() => {
+  const calculateStreak = async() => {
+    if (!exerciseLogs.length) {
+      setStreak(0);
+      await updateUser({ streak: 0 }); // ⬅️ save in DB
+      return;
+    }
 
-  useEffect(() => {
-    const checkStreak = () => {
-      const today = new Date().toISOString().split("T")[0];
-      const hasExercisedToday = exerciseLogs.some((log) => log.date === today);
+    const formatDateIST = (date) =>
+      new Date(date).toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
 
-      if (hasExercisedToday) {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayStr = yesterday.toISOString().split("T")[0];
+    const dates = exerciseLogs
+      .map((log) => formatDateIST(log.date))
+      .filter(Boolean);
+    const uniqueDates = [...new Set(dates)].sort(
+      (a, b) => new Date(b) - new Date(a)
+    );
 
-        const hasExercisedYesterday = exerciseLogs.some(
-          (log) => log.date === yesterdayStr
-        );
+    const today = formatDateIST(new Date());
+    const yesterday = formatDateIST(
+      new Date(new Date().setDate(new Date().getDate() - 1))
+    );
 
-        setStreak((prev) => (hasExercisedYesterday ? prev + 1 : 1));
+    console.log("Unique Dates:", uniqueDates);
+
+    let streakCount = 0;
+
+    if (!uniqueDates.includes(yesterday)) {
+      if (uniqueDates.includes(today)) {
+        setStreak(1);
+         await updateUser({ streak: 1 }); // ⬅️ save in DB
+        return;
       }
-    };
+      setStreak(0);
+      await updateUser({ streak: 0 }); // ⬅️ save in DB
+      return;
+    }
 
-    checkStreak();
-    const interval = setInterval(checkStreak, 86400000); // Once a day
-    return () => clearInterval(interval);
-  }, [exerciseLogs]);
+    streakCount = 1;
+    let prevDate = new Date(yesterday);
+
+    while (true) {
+      prevDate.setDate(prevDate.getDate() - 1);
+      const expectedDate = formatDateIST(prevDate);
+
+      if (uniqueDates.includes(expectedDate)) {
+        streakCount++;
+      } else {
+        break;
+      }
+    }
+
+    setStreak(streakCount);
+    await updateUser({ streak: streakCount }); // ⬅️ save in DB
+  };
+
+  calculateStreak();
+}, [exerciseLogs]);
+
 
   const calculateBMI = () => {
     if (!user?.height || !user?.weight) return 0;

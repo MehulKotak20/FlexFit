@@ -26,6 +26,9 @@ const Dashboard = () => {
     totalCaloriesConsumed,
     totalProteinConsumed
   } = useUser();
+
+  console.log("User data:", user);
+  console.log("Streak:", streak);
   
  
   const bmi = calculateBMI();
